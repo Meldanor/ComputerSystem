@@ -6,12 +6,15 @@
 *-----------------------------------------------------------
 	ORG	$1000
 START:				; first instruction of program
-	MOVE	#14, D0		; Signal fuer Ausgabe
+
+	MOVE.L 	#$FFFFFFFF, ERG	; Maximaler Wert in ERG speichern
+	ADDI.L	#2,ERG		; Ueberlauf erzeugen; Bei BigEndian steht dann 00 00 00 01 , bei LittleEndian 01 00 00 00
+	LEA	ERG, A1		; Addresse vom ersten Byte der Zahl in A1 laden
+	MOVE.B	(A1),D1		; Erstes Byte der Zahl in D1 laden
+	CMPI	#$00,D1		; Erstes Byte der Zahl mit 00 vergleichen - Bei BigEndian ist das True, bei LittleEndian ist das False
 	
-	LEA	NUMBER, A1	; Lade Addresse von der Zahl in A1
-	MOVE.B	(A1),D1		; Verschiebe den Wert an der Addresse A1 nach D1
-	CMPI	#$00,D1		; Vergleiche den Wert mit 00 
-	BEQ	BE		; Springe zu BE wenn das erste byte der Zahl 00 ist
+	MOVE	#14, D0		; Signal fuer Ausgabe
+	BEQ	BE		; Ist BigEndian und springe zu springe zur Ausgabe fuer BigEndian
 	
 
 	LEA	LETEXT, A1	; Sprung erfolgte nicht -> Little Endian. Lade Addresse des Strings in A1
@@ -25,13 +28,14 @@ BE:
 	
 	STOP	#$2000
 * Variables and Strings
-NUMBER DC.L $00009C40		; Test Zahl - In BigEndian 40.000, in LittleEndian 1083965440
+ERG DS.L 1
 BETEXT DC.B 'Speicherung erfolgt in BigEndian',0
 LETEXT DC.B 'Speicherung erfolgt in LittleEndian',0
 
 
 
 	END	START		; last line of source
+
 
 
 *~Font name~Courier New~
