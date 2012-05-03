@@ -12,15 +12,15 @@ START:				; first instruction of program
 	LEA	ERG, A1		; Addresse vom ersten Byte der Zahl in A1 laden
 	MOVE.B	(A1),D1		; Erstes Byte der Zahl in D1 laden
 	CMPI	#$00,D1		; Erstes Byte der Zahl mit 00 vergleichen - Bei BigEndian ist das True, bei LittleEndian ist das False
-	
-	MOVE	#14, D0		; Signal fuer Ausgabe
+
 	BEQ	BE		; Ist BigEndian und springe zu springe zur Ausgabe fuer BigEndian
-	
 
 	LEA	LETEXT, A1	; Sprung erfolgte nicht -> Little Endian. Lade Addresse des Strings in A1
+	JMP	OUT
 BE:	
-
 	LEA	BETEXT, A1	; Sprung erfolgte -> Big Endian. Lade Addresse des Strings in A1
+OUT:
+	MOVE	#14, D0		; Signal fuer Ausgabe
 	trap	#15		; Aktiviere die Ausgabe
 
 	MOVE.B	#9,D0		; Beende den Simulator
@@ -35,6 +35,7 @@ LETEXT DC.B 'Speicherung erfolgt in LittleEndian',0
 
 
 	END	START		; last line of source
+
 
 
 
