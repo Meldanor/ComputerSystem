@@ -1,0 +1,22 @@
+	Operationen							Stack
+	Push(1)								1
+	Push(START)							Start, 1
+	
+	Push(D0)							D0,Start,1
+	Push(A0)							A0,D0,Start,1
+	Get(3. Element)						1
+	
+	Wenn A0 < 12
+		Override(3. Element) mit TAB	A0,D0,Start,1
+		Pop(A0)							D0,Start,1
+		Pop(D0)							Start,1
+		Pop(RTS)						1
+		
+	Nicht
+		Override(3. Element) mit D0		A0,D0,Start,1
+		Pop(A0)							D0,Start,1
+		Pop(D0)							Start,1
+		Pop(RTS)						1
+		
+	
+	Pop(D1)								
