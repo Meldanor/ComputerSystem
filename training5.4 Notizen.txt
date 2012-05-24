@@ -1,0 +1,5 @@
+Mikroprogrammierte Kontrolleinheit:
+	- 	Makrobefehl wird in einer Reihe von Mikrobefehlen aufgebrochen(mehrere Schritte)
+	
+Hardverdrahteter:
+	-	Befehl wird in einem Schritt ausgeführt
